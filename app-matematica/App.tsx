@@ -3,7 +3,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
 
 export default function App() {
-  const [text, onChangeText] = useState();
+  const [text, onChangeText] = useState('');
+  const [result, onChangeResult] = useState(0);
 
   return (
     <View>
@@ -11,11 +12,13 @@ export default function App() {
       
       <View style={styles.container}>
         <Input text={text} onChangeText={onChangeText}/>
-        <Button title='Calcular' onPress={() => {}}/>
+        <Button title='Calcular' onPress={() => {
+          Calcular({text, onChangeResult});
+        }}/>
         
         <Text style={styles.textResult}>
           Resultado: 
-          <Text style={{paddingLeft: 8, fontWeight: '700'}}>{text}</Text>
+          <Text style={{paddingLeft: 8, fontWeight: '700'}}>{result}</Text>
         </Text>
 
         <StatusBar style="auto" />
@@ -43,6 +46,15 @@ function Input({text, onChangeText}) {
       />
     </View>
   )
+}
+
+function Calcular({text, onChangeResult}) {
+  const valores: string[] = text.split('+');
+  const resultado: number = Number(valores[0]) + Number(valores[1]);
+
+  if (resultado) {
+    onChangeResult(resultado);
+  }
 }
 
 const styles = StyleSheet.create({
